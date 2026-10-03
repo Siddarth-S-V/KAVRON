@@ -100,7 +100,7 @@ camera-state events
 🧭 System at a Glance
 
 ::: {align="center"}
-<img src="assets/KAVRON AI Surveillance Architecture(1).png" alt="KAVRON System Architecture" width="100%">{=html}
+<img src="assets/KAVRON AI Surveillance Architecture.png" alt="KAVRON System Architecture" width="100%">{=html}
 :::
 
 Processing path
