@@ -1,0 +1,6 @@
+.venv/
+__pycache__/
+*.pyc
+.env
+kavron.db
+.pytest_cache/

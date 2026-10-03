@@ -1,0 +1,37 @@
+@"
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Environment variables / secrets
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+
+# Databases / local runtime files
+*.db
+*.sqlite
+*.sqlite3
+
+# Build / cache
+dist/
+build/
+.vite/
+.cache/
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Large demo/media files
+demo video.mp4
+"@ | Set-Content .gitignore

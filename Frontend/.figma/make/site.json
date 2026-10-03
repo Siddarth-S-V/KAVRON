@@ -1,0 +1,10 @@
+{
+  "description": "Delivers a sleek, professional interface with smooth navigation and bright gradient visuals, enhancing user experience for modern web applications.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}

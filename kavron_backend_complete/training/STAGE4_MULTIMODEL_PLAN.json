@@ -1,0 +1,12 @@
+{
+  "stage": 4,
+  "principle": "train only on reviewed labels, validate, benchmark, then promote",
+  "components": {
+    "object_detection": {"base": "YOLO11n/YOLO26n/YOLO26s", "script": "train_yolo_stage4.py"},
+    "pose_posture": {"base": "YOLO11n-Pose or RTMPose-S", "script": "train_yolo_stage4.py", "note": "use the task-specific dataset/config"},
+    "anpr_ocr": {"base": "PP-OCRv5 mobile", "status": "training adapter required after labeled plate crops are supplied"},
+    "face": {"base": "YuNet + SFace", "status": "benchmark/adapt only with an appropriate consented face dataset"},
+    "vehicle_classification": {"base": "YOLO detector classes", "status": "fine-tune detector with KAVRON-specific vehicle labels"}
+  },
+  "promotion": ["validation metrics", "latency benchmark", "false-positive review", "fallback verification", "manual promotion"]
+}

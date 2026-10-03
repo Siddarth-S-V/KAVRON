@@ -1,0 +1,150 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
+  --color-background: #F7F9FC;
+  --color-background-secondary: #EEF3F8;
+  --color-card: #FFFFFF;
+  
+  --color-foreground: #0F172A;
+  --color-foreground-secondary: #64748B;
+  
+  --color-border: #E2E8F0;
+  --color-border-subtle: #E8EDF3;
+  
+  --color-primary: #2563EB;
+  --color-primary-hover: #1D4ED8;
+  --color-primary-electric: #3B82F6;
+  --color-cyan: #06B6D4;
+  --color-teal: #14B8A6;
+  --color-indigo: #6366F1;
+  --color-violet: #8B5CF6;
+  --color-green: #10B981;
+  --color-warning: #F59E0B;
+  --color-critical: #EF4444;
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-2xl: 24px;
+}
+
+@layer base {
+  :root {
+    --background: var(--color-background);
+    --foreground: var(--color-foreground);
+    --card: var(--color-card);
+    --card-foreground: var(--color-foreground);
+    --primary: var(--color-primary);
+    --primary-foreground: #FFFFFF;
+    --border: var(--color-border);
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+@layer utilities {
+  .gradient-blue-cyan {
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-cyan) 100%);
+  }
+  .gradient-blue-violet {
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-violet) 100%);
+  }
+  .gradient-cyan-teal {
+    background: linear-gradient(135deg, var(--color-cyan) 0%, var(--color-teal) 100%);
+  }
+  .gradient-indigo-violet {
+    background: linear-gradient(135deg, var(--color-indigo) 0%, var(--color-violet) 100%);
+  }
+  
+  .text-gradient {
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .shadow-soft {
+    box-shadow: 0 4px 24px -6px rgba(15, 23, 42, 0.04), 0 2px 8px -2px rgba(15, 23, 42, 0.02);
+  }
+  
+  .shadow-elevation {
+    box-shadow: 0 12px 32px -8px rgba(15, 23, 42, 0.06), 0 4px 12px -4px rgba(15, 23, 42, 0.03);
+  }
+
+  .glass-panel {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+  }
+}
+
+/* Stage 5 real-map styling. Leaflet itself remains responsible for map tiles. */
+.kavron-map .leaflet-control-attribution {
+  font-size: 10px;
+  background: rgba(255,255,255,.92);
+  border-radius: 6px 0 0 0;
+}
+.kavron-map .leaflet-popup-content-wrapper {
+  border-radius: 12px;
+}
+.kavron-map .leaflet-container {
+  font: inherit;
+}
+.kavron-map-marker {
+  width: 34px;
+  height: 34px;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 18px rgba(15,23,42,.22);
+}
+.kavron-map-marker > span {
+  transform: rotate(45deg);
+  color: white;
+  font-weight: 800;
+  font-size: 12px;
+}
+.kavron-map-marker.camera {
+  background: #1d4ed8;
+  border: 3px solid white;
+}
+.kavron-map-marker.selected {
+  background: #0891b2;
+  border: 4px solid #e0f2fe;
+  box-shadow: 0 0 0 6px rgba(8,145,178,.18), 0 8px 20px rgba(15,23,42,.24);
+}
+.kavron-map-marker.user {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  transform: none;
+  background: #0ea5e9;
+  border: 4px solid white;
+  box-shadow: 0 0 0 6px rgba(14,165,233,.18), 0 4px 12px rgba(15,23,42,.25);
+}
+
+/* Local Leaflet compatibility styles: avoids third-party CSS storage warnings. */
+.leaflet-container{position:relative;overflow:hidden;outline:0;font:12px/1.5 Helvetica Neue,Arial,Helvetica,sans-serif;background:#ddd;}
+.leaflet-pane,.leaflet-tile,.leaflet-marker-icon,.leaflet-marker-shadow,.leaflet-tile-container,.leaflet-map-pane svg,.leaflet-map-pane canvas,.leaflet-zoom-box{position:absolute;left:0;top:0;}
+.leaflet-tile{visibility:hidden;user-select:none;}
+.leaflet-tile-loaded{visibility:inherit;}
+.leaflet-control{position:relative;z-index:800;pointer-events:auto;float:left;clear:both;}
+.leaflet-top,.leaflet-bottom{position:absolute;z-index:1000;pointer-events:none;}
+.leaflet-top{top:0}.leaflet-bottom{bottom:0}.leaflet-left{left:0}.leaflet-right{right:0}
+.leaflet-top .leaflet-control{margin-top:10px}.leaflet-bottom .leaflet-control{margin-bottom:10px}.leaflet-left .leaflet-control{margin-left:10px}.leaflet-right .leaflet-control{margin-right:10px}
+.leaflet-control-zoom a{display:block;width:30px;height:30px;line-height:30px;text-align:center;background:#fff;color:#222;text-decoration:none;font-size:18px;box-shadow:0 1px 5px rgba(0,0,0,.4);}
+.leaflet-control-attribution{padding:0 5px;background:rgba(255,255,255,.8);color:#333;font-size:11px;}
+.leaflet-popup{position:absolute;text-align:center;margin-bottom:20px}.leaflet-popup-content-wrapper{padding:1px;text-align:left;border-radius:8px;background:#fff;box-shadow:0 3px 14px rgba(0,0,0,.4)}.leaflet-popup-content{margin:13px 19px;line-height:1.4}.leaflet-popup-tip{width:17px;height:17px;margin:0 auto;background:#fff;transform:rotate(45deg);box-shadow:3px 3px 5px rgba(0,0,0,.2)}
+.leaflet-marker-icon,.leaflet-marker-shadow{display:block}.leaflet-zoom-animated{transform-origin:0 0;}

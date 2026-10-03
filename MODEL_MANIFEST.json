@@ -1,0 +1,118 @@
+{
+  "stage": 4,
+  "generated": "2026-08-28",
+  "files": [
+    {
+      "path": "face_detection_yunet_2023mar.onnx",
+      "size_bytes": 232589,
+      "sha256": "8f2383e4dd3cfbb4553ea8718107fc0423210dc964f9f4280604804ed2552fa4"
+    },
+    {
+      "path": "face_detection_yunet_2026may.onnx",
+      "size_bytes": 229738,
+      "sha256": "ebafce4e3c118d6554634be5c27ab333b4c047a9a8c3faf1d7cf93101c22f0f0"
+    },
+    {
+      "path": "face_recognition_sface_2021dec.onnx",
+      "size_bytes": 38696353,
+      "sha256": "0ba9fbfa01b5270c96627c4ef784da859931e02f04419c829e83484087c34e79"
+    },
+    {
+      "path": "face_recognition_sface_2021dec_int8bq.onnx",
+      "size_bytes": 10667852,
+      "sha256": "fb143eea07838aa532d1c95df5f69899974ea0140e1fba05e94204be13ed74ee"
+    },
+    {
+      "path": "facial_expression_recognition_mobilefacenet_2022july_int8bq.onnx",
+      "size_bytes": 1376702,
+      "sha256": "0c3eaf9d0a7d442c0aa3beb3234243e1cdff9ad8871fb3cec346e90874caf57d"
+    },
+    {
+      "path": "license_plate_detection_lpd_yunet_2023mar.onnx",
+      "size_bytes": 4146213,
+      "sha256": "6d4978a7b6d25514d5e24811b82bfb511d166bdd8ca3b03aa63c1623d4d039c7"
+    },
+    {
+      "path": "paddleocr/en_PP-OCRv5_mobile_rec/config.json",
+      "size_bytes": 10455,
+      "sha256": "16103ac291a82fca50f0bb000d62a4b8168f6042f03c89c44cf32f241d1eb1f2"
+    },
+    {
+      "path": "paddleocr/en_PP-OCRv5_mobile_rec/inference.json",
+      "size_bytes": 217712,
+      "sha256": "fd1b6ec722ea841a72d3ba43e527df1d1066d5d7808e0503ee3eec7265188753"
+    },
+    {
+      "path": "paddleocr/en_PP-OCRv5_mobile_rec/inference.pdiparams",
+      "size_bytes": 7772315,
+      "sha256": "3ec8a97ed6cefe8568d3e2ee90bb193299b566a7661aa4fd52d224b96b59f66b"
+    },
+    {
+      "path": "paddleocr/en_PP-OCRv5_mobile_rec/inference.yml",
+      "size_bytes": 3964,
+      "sha256": "27e91d0582f40168aa218303c76e184bc78fa7a5d105aad0cfbad8458b441067"
+    },
+    {
+      "path": "rtmpose/rtmpose-s_8xb256-420e_coco-256x192.py",
+      "size_bytes": 6826,
+      "sha256": "abd6e563eca5d15ed462ca543ae57cac0b3bec47bed46ceea4472667a4ef32e5"
+    },
+    {
+      "path": "rtmpose/rtmpose-s_simcc-coco_pt-aic-coco_420e-256x192-8edcf0d7_20230127.pth",
+      "size_bytes": 47252231,
+      "sha256": "8edcf0d7459a1ab7bcbe51eccf7a30973ec808b21db043a16147d470a5070090"
+    },
+    {
+      "path": "yolo11n-pose.pt",
+      "size_bytes": 6255593,
+      "sha256": "869e83fcdffdc7371fa4e34cd8e51c838cc729571d1635e5141e3075e9319dc0"
+    },
+    {
+      "path": "yolo11n.pt",
+      "size_bytes": 5613764,
+      "sha256": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1"
+    },
+    {
+      "path": "yolo11n1.pt",
+      "size_bytes": 5613764,
+      "sha256": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1"
+    },
+    {
+      "path": "yolo11n_person.pt",
+      "size_bytes": 5613764,
+      "sha256": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1"
+    },
+    {
+      "path": "yolo11n_pose.pt",
+      "size_bytes": 6255593,
+      "sha256": "869e83fcdffdc7371fa4e34cd8e51c838cc729571d1635e5141e3075e9319dc0"
+    },
+    {
+      "path": "yolo26n.pt",
+      "size_bytes": 5544453,
+      "sha256": "9b09cc8bf347f0fc8a5f7657480587f25db09b34bf33b0652110fb03a8ad4fef"
+    },
+    {
+      "path": "yolo26s.pt",
+      "size_bytes": 20422725,
+      "sha256": "646f8bc3fe0a656803d95c294f7852321748cb29d13466a1af8862e2db384a1b"
+    }
+  ],
+  "stage4": {
+    "overview_camera_switcher": true,
+    "live_camera_endpoint": "/api/v1/stage4/live-camera/toggle",
+    "virtual_fence_overlay": true,
+    "fine_tuning_pipeline": "training/train_yolo_stage4.py",
+    "fine_tuning_status": "dataset-required",
+    "training_plan": "kavron_backend_complete/training/STAGE4_MULTIMODEL_PLAN.json"
+  },
+  "videos": [
+    "131232-749706873_medium.mp4",
+    "demo1.mp4",
+    "demo2.mp4",
+    "user_demo_01.mp4",
+    "user_demo_02.mp4",
+    "user_demo_03.mp4",
+    "user_demo_04.mp4"
+  ]
+}

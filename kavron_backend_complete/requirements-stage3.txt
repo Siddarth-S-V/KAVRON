@@ -1,0 +1,7 @@
+# Optional specialist OCR engines. Install ONE (PaddleOCR is preferred for ANPR):
+# pip install paddleocr
+# or:
+# pip install easyocr
+#
+# The core Stage 3 face/plate detectors use OpenCV DNN and require no extra
+# package beyond the existing opencv-python dependency.
