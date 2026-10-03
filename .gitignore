@@ -32,6 +32,4 @@ build/
 .DS_Store
 Thumbs.db
 
-# Large demo/media files
-demo video.mp4
 "@ | Set-Content .gitignore
