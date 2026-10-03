@@ -1,498 +1,375 @@
-::: {align="center"}
-<img src="assets/KAVRON AI Surveillance Valley Banner.png" alt="KAVRON — AI-Powered Surveillance & Intelligent Video Analytics" width="100%">{=html}
-
-🛰️ KAVRON
-
-AI-Powered Surveillance & Intelligent Video Analytics
-
-<p>
-
-<img src="https://img.shields.io/badge/Computer%20Vision-YOLO-7C3AED?style=for-the-badge" alt="Computer Vision">{=html}
-<img src="https://img.shields.io/badge/Frontend-React%2019-61DAFB?style=for-the-badge&logo=react&logoColor=111827" alt="React">{=html}
-<img src="https://img.shields.io/badge/Backend-FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI">{=html}
-<img src="https://img.shields.io/badge/Realtime-WebSockets-0EA5E9?style=for-the-badge" alt="WebSockets">{=html}
-<img src="https://img.shields.io/badge/Python-3.11-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python">{=html}
-
-</p>
-
-SEE → UNDERSTAND → TRACK → RESPOND
-
-KAVRON turns raw camera streams into structured, actionable
-intelligence.
-:::
-
-🌐 The Idea Behind KAVRON
-
-Modern camera systems can see everything, but seeing is not the same
-as understanding.
-
-KAVRON is designed as an intelligent video-analytics layer between
-camera feeds and human decision-making. It accepts CCTV/RTSP streams and
-recorded video, runs computer-vision inference, fuses detections,
-maintains object tracks, evaluates virtual-fence rules, and exposes
-alerts and analytics through a realtime dashboard.
-
-The system is intentionally modular:
-
-CAMERA WORLD
-     │
-     ▼
-┌──────────────────┐
-│ Video Acquisition│
-└────────┬─────────┘
-         ▼
-┌──────────────────┐
-│  AI Inference    │
-│ YOLO + Specialists│
-└────────┬─────────┘
-         ▼
-┌──────────────────┐
-│ Detection Fusion │
-└────────┬─────────┘
-         ▼
-┌──────────────────┐
-│ Object Tracking  │
-│    DeepSORT      │
-└────────┬─────────┘
-         ▼
-┌──────────────────┐
-│ Rules & Fences   │
-└────────┬─────────┘
-         ▼
-┌──────────────────┐
-│ Alerts / Incidents│
-└────────┬─────────┘
-         ▼
-┌──────────────────┐
-│ REST + WebSockets│
-└────────┬─────────┘
-         ▼
-   KAVRON DASHBOARD
-
-✦ Why KAVRON?
-
-KAVRON is not built around a single detection model.
-
-It combines multiple stages into one operational pipeline:
-
-Layer                               Responsibility
-
-🎥 Capture                      Receives CCTV, RTSP and video-file
-sources
-
-🧠 Inference                    Runs YOLO and specialist
-computer-vision models
-
-🧩 Fusion                       Combines and refines model outputs
-
-🛰️ Tracking                     Maintains object identities across
-frames
-
-🚧 Rules                        Applies virtual-fence and intrusion
-logic
-
-🚨 Incidents                    Converts events into alerts and
-persistent incidents
-
-📡 Realtime                     Streams detection, alert and
-camera-state events
-
-🧭 System at a Glance
-
-::: {align="center"}
-<img src="assets/KAVRON AI Surveillance Architecture.png" alt="KAVRON System Architecture" width="100%">{=html}
-:::
-
-Processing path
-
-CCTV / RTSP / MP4
-        │
-        ▼
-Camera Capture
-        │
-        ▼
-AI Scheduler
-        │
-        ▼
-YOLO + Specialist Models
-        │
-        ▼
-Detection Fusion
-        │
-        ▼
-DeepSORT / Fallback Tracker
-        │
-        ▼
-Virtual Fence + Event Rules
-        │
-        ├──────────────► Alerts & Incidents
-        │
-        ▼
-REST APIs + WebSockets
-        │
-        ▼
-React Monitoring Dashboard
-
-⚙️ A Different Approach to Video Processing
-
-KAVRON separates camera capture from AI inference.
-
-A camera may deliver frames faster than the AI pipeline needs to process
-them. Instead of forcing inference on every incoming frame, KAVRON
-maintains the newest frame and schedules inference according to the
-configured AI_FPS.
-
-High-FPS Camera
-      │
-      ▼
-┌─────────────────────┐
-│ Capture Thread      │
-│ Keep Latest Frame   │
-└──────────┬──────────┘
-           │
-           ▼
-┌─────────────────────┐
-│ AI Scheduler        │
-│ Configurable AI_FPS │
-└──────────┬──────────┘
-           │
-           ▼
-      AI Inference
-
-This keeps the acquisition layer independent from the computational
-workload.
-
-🧠 Computer Vision Stack
-
-KAVRON's backend contains a collection of AI/computer-vision assets:
-
-Model / Component            Intended Role
-
-YOLO checkpoints         Object, person and pose detection
-RTMPose                  Pose estimation
-YuNet                    Face detection
-SFace                    Face recognition
-Expression model         Facial-expression recognition
-License Plate Detector   Plate detection
-PaddleOCR assets         OCR pipeline
-
-Model assets are located under:
-
-kavron_backend_complete/models/
-
-Inspect available model metadata with:
-
-python scripts/inspect_models.py
-
-Note: Face and ANPR capabilities are documented as extension
-points. The presence of a model asset does not by itself mean that
-every specialist pipeline is active in every runtime path.
-
-🚨 From Detection to Incident
-
-A detection becomes useful when the system can reason about what happens
-next.
-
-KAVRON follows this event-oriented path:
-
-Detection
-   │
-   ▼
-Track ID Assigned
-   │
-   ▼
-Object Position Updated
-   │
-   ▼
-Virtual-Fence / Rule Check
-   │
-   ├── No Event ──► Continue Tracking
-   │
-   └── Event ─────► Create Incident
-                         │
-                         ▼
-                    Generate Alert
-                         │
-                         ▼
-                   Realtime Delivery
-
-This allows the frontend to receive structured events instead of dealing
-directly with raw model output.
-
-📡 Realtime Communication
-
-KAVRON exposes both REST and WebSocket interfaces.
-
-REST endpoints
-
-GET /overview
-GET /cameras
-GET /detections
-GET /tracks
-GET /alerts
-GET /incidents
-GET /fences
-GET /models
-GET /system/metrics
-
-WebSocket channels
-
-ws://127.0.0.1:8000/api/v1/ws/detections
-ws://127.0.0.1:8000/api/v1/ws/alerts
-ws://127.0.0.1:8000/api/v1/ws/camera_state
-
-Example detection event
-
-{
-  "type": "detection",
-  "camera_id": "CAM-DEMO-01",
-  "class_name": "person",
-  "confidence": 0.92,
-  "bbox": [100, 80, 240, 430],
-  "track_id": "TRACK-0001",
-  "source_models": ["general", "person"],
-  "frame_id": 123,
-  "timestamp": 1770000000.0
-}
-
-🎬 KAVRON --- See It Running
-
 <div align="center">
 
-▶️ Live Demo
+# 🛰️ KAVRON
 
-<video controls muted loop width="100%">
+### **SEE · UNDERSTAND · TRACK · RESPOND**
 
-<source src="assets/KAVRON Demo.mp4" type="video/mp4">
+**AI-Powered Surveillance & Intelligent Video Analytics**
 
-</video>
+Turning camera streams into **structured events, intelligent tracking, and actionable alerts.**
 
-Realtime detection · Tracking · AI analytics · Alerts · Monitoring
+<br>
+
+![KAVRON Banner](assets/KAVRON%20AI%20Surveillance%20Valley%20Banner.png)
+
+<br>
+
+[![Python](https://img.shields.io/badge/Python-3.11-3776AB?style=flat-square\&logo=python\&logoColor=white)](https://www.python.org/)
+[![React](https://img.shields.io/badge/React-19-61DAFB?style=flat-square\&logo=react\&logoColor=black)](https://react.dev/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-Backend-009688?style=flat-square\&logo=fastapi\&logoColor=white)](https://fastapi.tiangolo.com/)
+[![YOLO](https://img.shields.io/badge/YOLO-Computer%20Vision-111111?style=flat-square)](https://ultralytics.com/)
+[![OpenCV](https://img.shields.io/badge/OpenCV-Vision-5C3EE8?style=flat-square\&logo=opencv\&logoColor=white)](https://opencv.org/)
 
 </div>
 
-GitHub note: repository-hosted MP4 files may not play inline in
-every GitHub README view. If the embedded player does not appear, open
-the video directly:
+---
 
-🎥 Open KAVRON Demo
+## ◈ What is KAVRON?
 
-The showcase video is stored separately from the backend demo assets:
+**KAVRON is an AI-powered surveillance intelligence platform that transforms live video into context-aware events.**
 
-assets/KAVRON Demo.mp4
+Instead of stopping at object detection, KAVRON connects **computer vision, multi-model detection, object tracking, virtual fences, incident intelligence, REST APIs, and realtime communication** into one unified monitoring system.
 
-For files larger than GitHub's standard 100 MB repository limit, use Git
-LFS or another video-hosting approach.
+### The idea is simple:
 
-🧱 Technology Blueprint
+> **Capture → Detect → Fuse → Track → Reason → Alert → Visualize**
 
-::: {align="center"}
-Area                 Technology
+---
 
-🎨 Frontend          React 19 · Vite · TypeScript
-🧩 UI                Tailwind CSS · Framer Motion · Lucide React
-📊 Visualization     Recharts
-⚡ Backend           FastAPI · Uvicorn · Pydantic
-🐍 Runtime           Python 3.11
-👁️ Computer Vision   OpenCV
-🎯 Detection         Ultralytics / YOLO
-🛰️ Tracking          DeepSORT
-🗄️ Persistence       SQLite · SQLAlchemy
-📡 Realtime          WebSockets
-🧪 Testing           Pytest
-:::
+## ⚡ Why KAVRON?
 
-🚀 Run KAVRON Locally
+KAVRON goes beyond frame-by-frame detection by connecting **vision, tracking, rules, incidents, and realtime communication** into a single intelligent surveillance pipeline.
 
-1. Clone
+| From                   | To                       |
+| ---------------------- | ------------------------ |
+| 🎥 Raw video           | 📌 Structured events     |
+| 🧠 Object detection    | 🛰️ Persistent tracking  |
+| 📹 Camera feeds        | 🚧 Rule-aware monitoring |
+| 🔍 Isolated detections | 🚨 Incident generation   |
+| 📊 Static information  | 📡 Realtime intelligence |
 
+> **KAVRON transforms visual data into actionable intelligence.**
+
+---
+
+## 📌 Project Status
+
+<div align="center">
+
+### 🟢 Active Development
+
+**AI Detection · Tracking · Incident Intelligence · Realtime Monitoring**
+
+</div>
+
+---
+
+## 🎥 KAVRON in Action
+
+<div align="center">
+
+### Live System Demo
+
+https://github.com/Siddarth-S-V/KAVRON/raw/main/assets/KAVRON%20Demo.mp4
+
+<br>
+
+**Real-time Detection · Object Tracking · AI Analytics · Alerts · Monitoring**
+
+</div>
+
+> **Note:** GitHub may not render repository-hosted MP4 files inline in every README view. If the player does not appear, open the video directly from the `assets` folder.
+
+---
+
+## 🧠 System Architecture
+
+<div align="center">
+
+![KAVRON Architecture](assets/KAVRON%20AI%20Surveillance%20Architecture.png)
+
+</div>
+
+### Processing Flow
+
+```text
+                    ┌─────────────────────┐
+                    │ Camera / RTSP /     │
+                    │ Recorded Video      │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │  Camera Capture     │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │    AI Scheduler     │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │ YOLO + CV Models    │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │  Detection Fusion   │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │  Object Tracking    │
+                    │      DeepSORT       │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │   Rules & Fences    │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │ Incidents & Alerts  │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │ REST API + WebSocket│
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │  KAVRON Dashboard   │
+                    └─────────────────────┘
+```
+
+---
+
+## ⚡ Core Capabilities
+
+| Capability                  | Purpose                                      |
+| --------------------------- | -------------------------------------------- |
+| 🎥 **Video Ingestion**      | CCTV, RTSP and recorded video sources        |
+| 🧠 **AI Detection**         | YOLO-based computer vision inference         |
+| 🧩 **Detection Fusion**     | Combines outputs from multiple vision models |
+| 🛰️ **Object Tracking**     | Maintains object identities across frames    |
+| 🚧 **Virtual Fences**       | Detects boundary and rule violations         |
+| 🚨 **Incident Engine**      | Converts events into structured incidents    |
+| 📡 **Realtime Updates**     | WebSocket-based live communication           |
+| 📊 **Monitoring Dashboard** | Centralized visualization and analytics      |
+
+---
+
+## 🔬 Computer Vision Stack
+
+KAVRON follows a modular computer-vision architecture where different models can perform specialized tasks.
+
+| Model / Tool  | Role                     |
+| ------------- | ------------------------ |
+| **YOLO**      | Object Detection         |
+| **DeepSORT**  | Multi-Object Tracking    |
+| **RTMPose**   | Pose Estimation          |
+| **YuNet**     | Face Detection           |
+| **SFace**     | Face Recognition         |
+| **PaddleOCR** | OCR / Text Extraction    |
+| **OpenCV**    | Image & Video Processing |
+
+This modular approach makes it possible to extend KAVRON with additional specialist models without redesigning the complete processing pipeline.
+
+---
+
+## 🛠️ Technology Stack
+
+<div align="center">
+
+| Layer             | Technologies                                |
+| ----------------- | ------------------------------------------- |
+| **Frontend**      | React · TypeScript · Vite                   |
+| **UI**            | Tailwind CSS · Framer Motion · Lucide React |
+| **Visualization** | Recharts                                    |
+| **Backend**       | FastAPI · Uvicorn · Pydantic                |
+| **AI / Vision**   | YOLO · OpenCV                               |
+| **Tracking**      | DeepSORT                                    |
+| **Database**      | SQLite · SQLAlchemy                         |
+| **Realtime**      | WebSockets                                  |
+| **Testing**       | Pytest                                      |
+
+</div>
+
+---
+
+## 🚀 Run Locally
+
+### 1. Clone the Repository
+
+```bash
 git clone https://github.com/Siddarth-S-V/KAVRON.git
 cd KAVRON
+```
 
-2. Backend
+---
 
-Windows PowerShell
+### 2. Start the Backend
 
+```bash
 cd kavron_backend_complete
 
 py -3.11 -m venv .venv
-.\.venv\Scripts\Activate.ps1
+.venv\Scripts\Activate.ps1
 
 python -m pip install --upgrade pip
 pip install -r requirements.txt
 
-Start the API:
-
 python run.py
+```
 
-Or:
+Backend:
 
-uvicorn app.main:app --reload
+```text
+http://127.0.0.1:8000
+```
 
-3. Frontend
+API documentation:
 
-cd Frontend
-pnpm install
-
-Configure:
-
-VITE_API_BASE_URL=http://127.0.0.1:8000/api/v1
-
-Run:
-
-pnpm dev
-
-Build:
-
-pnpm build
-
-4. API Documentation
-
-Once the backend is running:
-
+```text
 http://127.0.0.1:8000/docs
+```
 
-API base:
+---
 
-http://127.0.0.1:8000/api/v1
+### 3. Start the Frontend
 
-📷 Connect an RTSP Camera
+Open another terminal:
 
-Add a camera:
+```bash
+cd Frontend
 
-curl -X POST http://127.0.0.1:8000/api/v1/cameras \
-  -H "Content-Type: application/json" \
-  -d '{"camera_id":"CAM-001","name":"Border Sector 01","source":"rtsp://user:password@camera/stream","protocol":"rtsp","sector":"01"}'
+pnpm install
+pnpm dev
+```
 
-Start it:
+Configure the API endpoint:
 
-curl -X POST http://127.0.0.1:8000/api/v1/cameras/CAM-001/start
+```env
+VITE_API_BASE_URL=http://127.0.0.1:8000/api/v1
+```
 
-🧪 Validation & Developer Tools
+The frontend will then be available through the Vite development server.
 
-Run the backend test suite:
+---
 
-pytest -q
+## 📡 API & Realtime Communication
 
-Inspect model assets:
+KAVRON exposes structured REST APIs for managing and monitoring the surveillance pipeline.
 
-python scripts/inspect_models.py
+### REST Endpoints
 
-Developer and training utilities:
+```text
+GET /api/v1/overview
+GET /api/v1/cameras
+GET /api/v1/detections
+GET /api/v1/tracks
+GET /api/v1/alerts
+GET /api/v1/incidents
+GET /api/v1/fences
+GET /api/v1/models
+```
 
-kavron_backend_complete/scripts/
-kavron_backend_complete/training/
+### WebSocket Channels
 
-📁 Repository Map
+```text
+/api/v1/ws/detections
+/api/v1/ws/alerts
+/api/v1/ws/camera_state
+```
 
-KAVRON/
-│
-├── Frontend/
-│   ├── src/
-│   ├── package.json
-│   ├── pnpm-lock.yaml
-│   └── vite.config.ts
-│
-├── kavron_backend_complete/
-│   ├── app/
-│   ├── data/
-│   ├── models/
-│   ├── scripts/
-│   ├── tests/
-│   ├── training/
-│   ├── .env.example
-│   ├── requirements.txt
-│   └── run.py
-│
-├── assets/
-│   ├── KAVRON AI Surveillance Valley Banner.png
-│   ├── KAVRON AI Surveillance Architecture(1).png
-│   └── KAVRON Demo.mp4
-│
-├── .gitignore
-└── README.md
+This enables the dashboard to receive live system events without continuously polling the backend.
 
-🔐 Security First
+---
 
-Never commit secrets or private infrastructure credentials.
+## 🔐 Security
 
-✅ .env.example
-❌ .env
-❌ API keys
-❌ passwords
-❌ private camera credentials
-❌ production secrets
+Never commit sensitive information to the repository.
 
-Camera credentials and deployment secrets should remain outside version
-control.
+```text
+.env
+API keys
+Passwords
+Camera credentials
+Private infrastructure credentials
+Production secrets
+```
 
-🛣️ Where KAVRON Can Go Next
+Use `.env.example` as the starting point for local configuration.
 
-The current architecture leaves room for additional capabilities:
+---
 
-🌐 WebRTC / HLS production video delivery
+## 🧭 Future Direction
 
-☁️ Distributed camera processing
+KAVRON is designed with extensibility in mind.
 
-🧠 Additional specialist AI models
+Potential directions include:
 
-📊 Advanced analytics dashboards
+* Distributed camera processing
+* Advanced video analytics
+* Additional specialist AI models
+* WebRTC / HLS video delivery
+* Geospatial monitoring
+* Rich notification systems
+* Production-scale deployment
+* Edge-based AI processing
 
-🔔 Rich notification integrations
+---
 
-🗺️ Geospatial monitoring
+## 👨‍💻 Built By
 
-⚙️ Production-scale deployment tooling
+<div align="center">
 
-These are future directions, not claims about the current
-implementation.
+### **Siddarth S V**
 
-👨‍💻 Built By
+**B.E. Electronics & Communication Engineering**
+**BS in Data Science and Applications**
 
-::: {align="center"}
+<br>
 
-Siddarth S V
+[![GitHub](https://img.shields.io/badge/GitHub-Siddarth--S--V-181717?style=flat-square\&logo=github)](https://github.com/Siddarth-S-V)
 
-Engineering Student
+</div>
 
-B.E. Electronics & Communication Engineering
+---
 
-BS in Data Science and Applications
+## 📜 Copyright & Ownership
 
-<p>
+**© 2026 Siddarth S V. All Rights Reserved.**
 
-<a href="https://github.com/Siddarth-S-V">{=html}
-<img src="https://img.shields.io/badge/GitHub-Siddarth--S--V-181717?style=for-the-badge&logo=github" alt="GitHub">{=html}
-</a>{=html}
-<a href="https://www.linkedin.com/in/siddarth-s-v-0b20792b7/">{=html}
-<img src="https://img.shields.io/badge/LinkedIn-Siddarth%20S%20V-0A66C2?style=for-the-badge&logo=linkedin" alt="LinkedIn">{=html}
-</a>{=html}
+KAVRON is an original project developed by **Siddarth S V**.
 
-</p>
+The source code, project architecture, documentation, original visual assets, and project-specific implementations are protected by applicable copyright laws unless otherwise stated.
 
-:::
+Third-party libraries, frameworks, pretrained models, datasets, and external assets remain subject to their respective licenses and copyrights.
 
-📜 Project & Third-Party Assets
+**No permission is granted to reproduce, redistribute, modify, or commercially use the original KAVRON project materials without prior written permission from the author, except where permitted by applicable third-party licenses.**
 
-KAVRON contains third-party libraries, pretrained model assets,
-datasets, OCR components and demonstration media.
+For third-party components, always refer to their respective licenses before redistribution or commercial deployment.
 
-Before redistribution or commercial deployment, verify the applicable
-licenses and usage restrictions for each external component.
+---
 
-The project documentation does not currently define a separate project
-license.
+<div align="center">
 
-::: {align="center"}
+# 🛰️ KAVRON
 
-🛰️ KAVRON
+### **SEE THE FRAME. UNDERSTAND THE EVENT. ACT ON THE SIGNAL.**
 
-SEE THE FRAME. UNDERSTAND THE EVENT. ACT ON THE SIGNAL.
+**Detect · Track · Fuse · Alert · Visualize**
 
-Detect · Track · Fuse · Alert · Visualize
+<br>
 
-<br>{=html}
+⭐ **If KAVRON is useful or interesting, consider starring the repository.**
 
-⭐ If KAVRON is useful or interesting, consider starring the
-repository.
-:::
+<br>
+
+**© 2026 Siddarth S V · KAVRON**
+
+</div>
